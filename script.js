@@ -120,22 +120,30 @@ function formatTimestamp(timestamp) {
 // 返回格式： {"Response": "hello"}
 async function getResponse(query) {
     try {
-        const response = await fetch('http://localhost:8000/chat/', {
+	 var body = new FormData();
+	    body.append('txt',query)
+        const response = await fetch('/tectalic_openai/t.php', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                //'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                message: query
-            })
+            //body: JSON.stringify({
+              //  message: query
+            //})
+             body:body
         });
 
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
 
-        const data = await response.json();
-        return data.message;
+        const data = await response.text();
+       // const data1 = await response.json();
+	    console.log(data)
+
+	//    console.log(data1)
+        //return data.message;
+	return data
     } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
     }
